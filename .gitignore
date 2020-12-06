@@ -1,0 +1,9 @@
+.idea/
+*.pyc
+*~
+*.swp
+*.scssc
+*.buildinfo
+.DS_Store
+/venv/
+
