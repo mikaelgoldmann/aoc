@@ -1,10 +1,14 @@
 import sys
 from functools import reduce
+from lib import paragraphs
 
-cases = [x for x in sys.stdin.read().strip().split("\n\n")]
+# sol= 6457
+# sol= 3260
+
+cases = list(paragraphs(sys.stdin))
 
 def combine(c, f):
-    xs = [set(c1) for c1 in c.split()]
+    xs = [set(c1) for c1 in c]
     return list(reduce(f, xs))
 
 def solve(cases, f):
