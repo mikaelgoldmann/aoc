@@ -5,7 +5,6 @@ import sys
 ns = [int(x.strip()) for x in sys.stdin]
 
 
-# sanity check
 
 pre = int(sys.argv[1]) if len(sys.argv) == 2 else 25
 
@@ -34,7 +33,19 @@ for i in range(len(ns)):
 
 j = 0
 k = 1
-s = sums[1]
+s = ns[0] + ns[1]
 while s != c:
-    if j < k - 1 and  
+    if j < k - 1 and s > c:
+        s -= ns[j]
+        j += 1
+    else:
+        k += 1
+        s += ns[k]
+
+y = ns[j: k + 1]
+print("part 2")
+print(c, sum(y))
+print(j, k+1)
+print(min(y), max(y))
+print("sol", min(y) +max(y))
 
