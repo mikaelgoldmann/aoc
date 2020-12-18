@@ -18,7 +18,7 @@ def empty_grid3(nr, nc, h):
     return [ empty_layer(nr, nc) for k in range(h) ]
 
 def empty_grid4(nr, nc, nz, nw):
-    return [ empty_grid3(nr, nc, nz) for w in nw]
+    return [ empty_grid3(nr, nc, nz) for w in range(nw)]
 
 padding = 7
 
@@ -35,12 +35,12 @@ def count3x3x3x3(g, r, c, z, w):
         for dc in range(-1, 2):
             for dz in range(-1, 2):
                 for dw in range(-1, 2):
-                    s += g[w+dw]g[z+dz][r+dr][c+dc]
+                    s += g[w+dw][z+dz][r+dr][c+dc]
     return s - g[w][z][r][c]
 
 
 def step(g, nr, nc, nz, nw):
-    g1 = empty_grid(nr, nc, nz, nw)
+    g1 = empty_grid4(nr, nc, nz, nw)
     for r in range(1, nr - 1): 
         for c in range(1, nc - 1): 
             for z in range(1, nz - 1):
