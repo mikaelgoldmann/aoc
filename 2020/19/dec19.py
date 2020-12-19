@@ -65,7 +65,7 @@ def gen(start, s, rules):
     return tt
 
 
-def sol(s, rules):
+def sol(strings, rules):
     cnt = 0
     for s in strings:
         if gen(0, s, rules):
@@ -80,13 +80,14 @@ def sol(s, rules):
 
 
 
+print("part 1", sol(strings, rules))
 
 
+# 8: 42 | 42 8
+# 11: 42 31 | 42 11 31
 
+rules[8] = ((42,), (42, 8))
+rules[11] = ((42, 31), (42, 11, 31))
 
-
-print("part 1", sol(s, rules))
-
-
-print("part 2", None)
+print("part 2", sol(strings, rules))
 
