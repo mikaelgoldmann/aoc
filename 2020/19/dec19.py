@@ -65,13 +65,16 @@ def gen(start, s, rules):
     return tt
 
 
-cnt = 0
-for s in strings:
-    if gen(0, s, rules):
-        print ("YES", s)
-        cnt += 1
-    else:
-        print("NO ", s)
+def sol(s, rules):
+    cnt = 0
+    for s in strings:
+        if gen(0, s, rules):
+            print ("YES", s)
+            cnt += 1
+        else:
+            print("NO ", s)
+    return cnt
+
 # print(lines)a
 
 
@@ -82,7 +85,7 @@ for s in strings:
 
 
 
-print("part 1", cnt)
+print("part 1", sol(s, rules))
 
 
 print("part 2", None)
