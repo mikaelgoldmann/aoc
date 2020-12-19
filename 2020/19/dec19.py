@@ -40,14 +40,15 @@ def gen2(xs, s, i, j, mem, rules):
     return False
         
         
-
 def gen1(x, s, i, j, mem, rules):
     if j <= i:
         return False
     if i + 1 == j and x == s[i]:
         return True
+    if type(x) != int:
+        return False
     if (x, i, j) not in mem:
-        rhs = rules[sym]
+        rhs = rules[x]
         for rh in rhs:
             if gen2(rh, s, i, j, mem, rules):
                 mem[(x, i, j)] = True
