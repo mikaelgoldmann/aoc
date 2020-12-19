@@ -47,13 +47,11 @@ def gen1(x, s, i, j, mem, rules):
     if i + 1 == j and x == s[i]:
         return True
     if (x, i, j) not in mem:
-        for sym, rhs in rules.items():
-            if sym != x:
-                continue
-            for rh in rhs:
-                if gen2(rh, s, i, j, mem, rules):
-                    mem[(x, i, j)] = True
-                    return True
+        rhs = rules[sym]
+        for rh in rhs:
+            if gen2(rh, s, i, j, mem, rules):
+                mem[(x, i, j)] = True
+                return True
         mem[(x, i, j)] = False
         return False
     else:
