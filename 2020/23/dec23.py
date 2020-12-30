@@ -29,9 +29,7 @@ def step(d, n):
         rot(d)
 
 
-def main(case, data, steps):
-    print()
-    print(case, steps)
+def main(data, steps):
     data = deque([int(x) for x in data])
     assert set(data) == set(range(1, 10))
     #print("Step", 0)
@@ -44,10 +42,10 @@ def main(case, data, steps):
     while data[0] != 1:
         rot(data)
     result = map(str, data)
-    print("step 1", ''.join(result)[1:])
+    return ''.join(result)[1:]
 
 
 if __name__ == '__main__':
-    main("test", "389125467", 10)
-    main("test", "389125467", 100)
-    main("real", "789465123", 100)
+    for times in [10, 100]:
+        print("test step 1:", times, "-" , main("389125467", times))
+    print("real step 1:", times, "-", main("789465123", times))
