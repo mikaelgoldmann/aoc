@@ -71,21 +71,31 @@ class List(object):
         return self.links[pos].right
 
 
-def main(data, steps):
-    links = {}
+def run_steps(data, steps, extend_to=None):
     data = [int(x) for x in data]
-    for i in range(len(data)):
-        links[data[i]] = Link(data[i], data[i-1], data[(i + 1) % len(data)])
-
     assert set(data) == set(range(1, 10))
-    #print("Step", 0)
-    #print(data)
+    assert extend_to is None or extend_to >= 9
+    if extend_to:
+        data.extend(range(10, extend_to + 1))
+    nelts = 9 if extend_to is None else extend_to
+    links = [Link(0, 0, 0)] * (nelts + 1)
+    for i in range(len(data)):
+        links[data[i]] = Link(data[i], data[i - 1], data[(i + 1) % len(data)])
+    # print("Step", 0)
+    # print(data)
     my_list = List(data[0], links)
     for i in range(steps):
-        #print(i)
-        step(my_list, 10)
-        #print("Step", i + 1)
-        #print(data)
+        if i % 1000000 == 0:
+            print(i)
+        # print(i)
+        step(my_list, 10 if extend_to is None else extend_to + 1)
+        # print("Step", i + 1)
+        # print(data)
+    return my_list
+
+
+def main(data, steps):
+    my_list = run_steps(data, steps)
     pos = my_list.right(1)
     result = []
     while pos != 1:
@@ -94,7 +104,17 @@ def main(data, steps):
     return ''.join(result)
 
 
+def main2(data, steps, extend_to):
+    my_list = run_steps(data, steps, extend_to)
+    e1 = my_list.right(1)
+    e2 = my_list.right(e1)
+    return e1 * e2
+
+
 if __name__ == '__main__':
     for times in [10, 100]:
         print("test step 1:", times, "-" , main("389125467", times))
-    print("real step 1:", times, "-", main("789465123", times))
+    print("real step 1:", 100, "-", main("789465123", 100))
+
+    print("test step 2:", 10000000, "-", main2("389125467", 10000000, 1000000))
+    print("real step 2:", 10000000, "-", main2("789465123", 10000000, 1000000))
