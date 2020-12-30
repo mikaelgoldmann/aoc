@@ -5,7 +5,7 @@ from collections import deque
 def read_deck(inp):
     player = inp.readline()
     assert player.startswith("Player")
-    d = deque()
+    d = []
     for line in inp:
         if not line.strip():
             return d
@@ -35,15 +35,24 @@ def points(d):
     return sum
 
 
+def play_game_1(d1, d2):
+    dq1 = deque(d1)
+    dq2 = deque(d2)
+    while dq1 and dq2:
+        play(dq1, dq2)
+    print(dq1, dq2)
+    pts = points(dq1) if d1 else points(dq2)
+    return pts
+
+
 def main(inp):
     d1 = read_deck(inp)
     d2 = read_deck(inp)
     assert len(d1) == len(d2)
     print(d1, d2)
-    while d1 and d2:
-        play(d1, d2)
+    pts = play_game_1(d1, d2)
     print(d1, d2)
-    print("part 1", points(d1) if d1 else points(d2))
+    print("part 1", pts)
 
 
 if __name__ == '__main__':
