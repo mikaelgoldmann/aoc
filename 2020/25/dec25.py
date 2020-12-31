@@ -4,6 +4,7 @@ import math
 DENOMINATOR = 20201227
 SUBJECT_NUMBER = 7
 
+
 ################
 # from https://stackoverflow.com/questions/4798654/modular-multiplicative-inverse-function-in-python
 def egcd(a, b):
@@ -13,24 +14,19 @@ def egcd(a, b):
         g, y, x = egcd(b % a, a)
         return (g, x - (b // a) * y, y)
 
+
 def modinv(a, m):
     g, x, y = egcd(a, m)
     if g != 1:
-        print(a, m)
         raise Exception('modular inverse does not exist')
     else:
         return x % m
 ###############
 
 
-def transform(subject_number, value=1, lz=1):
-    for i in range(lz):
-        value = (value * subject_number) % DENOMINATOR
-    return value
-
-
 def mod_div(a, b, p):
     return (a * modinv(b, p)) % p
+
 
 def shank(a, b, p):
     # solve a^x == b mod p
