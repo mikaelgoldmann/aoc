@@ -27,15 +27,6 @@ def sqrt(n):
     raise Exception("no solution")
 
 
-def sides(tile):
-    return (
-        as_num(tile[0]),
-        as_num((r[-1] for r in tile)),
-        as_num(tile[-1]),
-        as_num((r[0] for r in tile))
-    )
-
-
 class Orientation(object):
     def __init__(self, tile):
         self.tile = tile
@@ -103,21 +94,6 @@ def as_num(s):
         if c == '#':
             n += 1
     return n
-
-
-def rev_num(n):
-    m = 0
-    for i in range(10):
-        m *= 10
-        m += n % 10
-        n //= 10
-    return m
-
-
-def flip(nums):
-    assert len(nums) == 4
-    tp, lft, bot, rgt = nums
-    return rev_num(tp), rev_num(rgt), rev_num(bot), rev_num(lft)
 
 
 def enum(n):
@@ -289,7 +265,6 @@ def main():
     # We are now assuming that no '#' is part of more than one monster
     # Or in other words that no monster matchings overlap
     print("part 2", cnt1 - cnt2 * monster_count)
-
 
 
 if __name__ == '__main__':
