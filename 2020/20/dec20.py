@@ -36,6 +36,15 @@ def sides(tile):
     )
 
 
+class Orientation(object):
+    def __init__(self, tile):
+        self.tile = tile
+        self.top = top(tile)
+        self.bottom = bottom(tile)
+        self.left = left(tile)
+        self.right = right(tile)
+
+
 def orientations(rows):
     options = []
     for flipped in [False, True]:
@@ -43,7 +52,7 @@ def orientations(rows):
             r1 = rot_left(rows, times)
             if flipped:
                 r1 = flip_top_bottom(r1)
-            options.append(r1)
+            options.append(Orientation(r1))
     return options
 
 
@@ -90,9 +99,10 @@ def rot_left(tile, times=1):
 def as_num(s):
     n = 0
     for c in s:
-        n *= 10
+        n *= 2
         if c == '#':
             n += 1
+    return n
 
 
 def rev_num(n):
@@ -118,24 +128,24 @@ def enum(n):
                 yield x, y
 
 
-def top(r): return r[0]
+def top(r): return as_num(r[0])
 
 
-def bottom(r): return r[-1]
+def bottom(r): return as_num(r[-1])
 
 
-def left(r): return [r1[0] for r1 in r]
+def left(r): return as_num([r1[0] for r1 in r])
 
 
-def right(r): return [r1[-1] for r1 in r]
+def right(r): return as_num([r1[-1] for r1 in r])
 
 
 def fits(piece, grid, r, c):
     if r > 0:
-        if bottom(grid[r - 1][c][1]) != top(piece):
+        if grid[r - 1][c][1].bottom != piece.top:
             return False
     if c > 0:
-        if right(grid[r][c - 1][1]) != left(piece):
+        if grid[r][c - 1][1].right != piece.left:
             return False
     return True
 
@@ -183,7 +193,7 @@ def get_image(grid, N):
     grid1 = [[[]] * N for i in range(N)]
     for r in range(N):
         for c in range(N):
-            grid1[r][c] = trim_tile(grid[r][c][1])
+            grid1[r][c] = trim_tile(grid[r][c][1].tile)
     return flatten(grid1)
 
 
@@ -254,7 +264,7 @@ def main():
         ids = []
         for i, x in row:
             ids.append(i)
-        print(ids)
+        #print(ids)
     prod = 1
     for x in [0, -1]:
         for y in [0, -1]:
@@ -269,11 +279,11 @@ def main():
     images = orientations(get_image(grid, N))
     monster_count = 0
     for image in images:
-        num = count_pattern(image, monster)
+        num = count_pattern(image.tile, monster)
         if num:
             print("monster count", num)
             monster_count = num
-    cnt1 = count_pattern(images[0], [['#']])
+    cnt1 = count_pattern(images[0].tile, [['#']])
     cnt2 = count_pattern(monster, [['#']])
     print(cnt1, cnt2)
     # We are now assuming that no '#' is part of more than one monster
