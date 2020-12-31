@@ -35,6 +35,9 @@ class Orientation(object):
         self.left = left(tile)
         self.right = right(tile)
 
+    def __eq__(self, other):
+        return self.tile == other.tile
+
 
 def orientations(rows):
     options = []
