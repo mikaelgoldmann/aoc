@@ -131,6 +131,8 @@ def run(prog, inp, pc=0):
     mem.update(enumerate(prog))
     base = 0
 
+    # for problem 15, yield initial position as first step!
+    yield mem, None, 0, mem[pc] != 99
     while mem[pc] != 99:
         base, pc, out = step(mem, pc, inp, base)
         yield mem, out, pc, True
