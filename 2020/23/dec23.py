@@ -84,11 +84,13 @@ def run_steps(data, steps, extend_to=None):
     # print("Step", 0)
     # print(data)
     my_list = List(data[0], links)
+
+    max_value = max(data)
     for i in range(steps):
         if i % 1000000 == 0:
             print(i)
         # print(i)
-        step(my_list, 10 if extend_to is None else extend_to + 1)
+        step(my_list, max_value + 1)
         # print("Step", i + 1)
         # print(data)
     return my_list
