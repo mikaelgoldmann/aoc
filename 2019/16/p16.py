@@ -65,6 +65,8 @@ if __name__ == '__main__':
         do_print = True
         times = 4
         data = '12345678'
+    data = '80871224585914546619083218645595'
+    times = 100
     print(len(data))
     m = matrix(len(data))
     v = run(m, parse(data), times, do_print)[:8]
