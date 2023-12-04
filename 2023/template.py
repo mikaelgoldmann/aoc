@@ -38,10 +38,11 @@ def get_int_lines(lines=None):
     return int_lines
 
 
-if __name__ == '__main__':
-
+def main(argv):
     print("part 1")
-
-
     print()
     print("part 2")
+
+
+if __name__ == '__main__':
+    main(sys.argv)
