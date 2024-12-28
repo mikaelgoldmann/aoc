@@ -46,7 +46,10 @@ def parse(line):
 
 
 def concat(a, b):
-    return int(str(a) + str(b))
+    m = 10
+    while m <= b:
+        m *= 10
+    return a * m + b
 
 
 def can_reach(goal:int, nums: list[int], allow_concat = False):
