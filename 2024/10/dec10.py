@@ -64,47 +64,43 @@ def bfs2(board, row, col):
     return visited
 
 
-def solve2(board):
+def solve2(board, aggregate):
     acc = 0
-    nines = []
-    for row, cells in enumerate(board):
-        for col, cell in enumerate(cells):
-            if cell == 9:
-                nines.append((row, col))
-    for row, cells in enumerate(board):
-        for col, cell in enumerate(cells):
-            if cell == 0:
-                visited = bfs2(board, row, col)
-                for (r, c) in nines:
-                    if (r,c) in visited:
-                        acc += visited[(r, c)]
+    zeroes = find_all(board, 0)
+    nines = find_all(board, 9)
+    for row, col in zeroes:
+        visited = bfs2(board, row, col)
+        for (r, c) in nines:
+            if (r, c) in visited:
+                acc = aggregate(acc, visited[(r, c)])
     return acc
 
 
-def solve1(board):
-    acc = 0
+def agg_score(acc, val):
+    if val > 0:
+        return acc + 1
+
+
+def agg_rating(acc, val):
+    return acc + val
+
+
+def find_all(board, value):
     nines = []
     for row, cells in enumerate(board):
         for col, cell in enumerate(cells):
-            if cell == 9:
+            if cell == value:
                 nines.append((row, col))
-    for row, cells in enumerate(board):
-        for col, cell in enumerate(cells):
-            if cell == 0:
-                visited = bfs2(board, row, col)
-                for (r, c) in nines:
-                    if visited[(r,c)] > 0: # in visited:
-                        acc += 1
-    return acc
+    return nines
 
 
 def main(argv):
     board = [[int(c) for c in line] for line in get_lines()]
     print("part 1")
-    print(solve1(board))
+    print(solve2(board, agg_score))
     print()
     print("part 2")
-    print(solve2(board))
+    print(solve2(board, agg_rating))
 
 
 if __name__ == '__main__':
