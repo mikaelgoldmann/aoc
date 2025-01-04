@@ -1,4 +1,13 @@
 import sys
+import argparse
+
+
+DEBUG = False
+
+
+def dprint(*a, **kw):
+    if DEBUG:
+        print(*a, **kw)
 
 
 def get_lines(f=None):
@@ -38,11 +47,20 @@ def get_int_lines(lines=None):
     return int_lines
 
 
-def main(argv):
+def main(inp):
     print("part 1")
     print()
     print("part 2")
 
 
 if __name__ == '__main__':
-    main(sys.argv)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--debug", type=bool, default=False)
+    parser.add_argument("--file", type=str, default=None)
+    args = parser.parse_args(sys.argv)
+    DEBUG = args.debug
+    if args.file:
+        with open(args.file) as inp:
+            main(inp)
+    else:
+        main(sys.stdin)
