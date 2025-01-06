@@ -3,7 +3,7 @@ import re
 import sys
 
 from collections import defaultdict
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 
 DEBUG = False
@@ -62,6 +62,17 @@ def get_int_lines(lines=None):
     return int_lines
 
 
+def step_robot(robot, width, height):
+    robot.x += robot.dx
+    robot.x %= width
+    robot.y += robot.dy
+    robot.y %= height
+
+
+def step_robots(robots, width, height):
+    for r in robots: step_robot(r, width, height)
+
+
 def parse_robot(line):
     m = ROBOT.match(line)
     assert m
@@ -98,15 +109,52 @@ def solve(robots, width, height):
     return acc
 
 
+def print_robots(robots, width, height):
+    canvas = [ [' '] * width for h in range(height)]
+    for r in robots:
+        canvas[r.y][r.x] = '*'
+    for row in canvas:
+        print(''.join(row))
+
+
+def tree_like(robots, width, height):
+    distro = defaultdict(lambda: 0)
+    for r in robots:
+        distro[(r.x, r.y)] += 1
+        if distro[(r.x, r.y)] > 1:
+            return False
+    prev = (-100, -100)
+    acc = 0
+    for pt in sorted(distro.keys()):
+        if pt[0] == prev[0] and pt[1] == prev[1] + 1:
+            acc += 1
+        prev = pt
+    return acc > 200
+
+
+def find_tree(robots, width, height):
+    for i in range(1000000):
+        if tree_like(robots, width, height):
+            print()
+            print(i)
+            print_robots(robots, width, height)
+        step_robots(robots, width, height)
+        if i % 10000 == 0: print(i)
+
+
 def main(inp, width, height):
     robots = []
-    for line in get_lines(inp):
+    lines = get_lines(inp)
+    for line in lines:
         robots.append(parse_robot(line))
     print("part 1")
     print(solve(robots, width, height))
     print()
     print("part 2")
-
+    robots = []
+    for line in lines:
+        robots.append(parse_robot(line))
+    find_tree(robots, width, height)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
