@@ -57,7 +57,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--debug", type=bool, default=False)
     parser.add_argument("--file", type=str)
-    args = parser.parse_args(sys.argv[:1])
+    args = parser.parse_args(sys.argv[1:])
     DEBUG = args.debug
     with open(args.file) as inp:
         main(inp)
